@@ -6,6 +6,9 @@ tags:
 categories: Learning
 ---
 
+# [**排版更好的笔记的链接**](https://github.com/EatSleepDebug/ShangGuiGu/blob/main/README.md)
+*hexo对我熟悉的markdown语法的排版给我整吐了。。。*
+
 ## <h3 id="0">目录</h3>
 * [字符串比较](#1)
 * [码点和代码单元](#2)
@@ -21,8 +24,10 @@ categories: Learning
 * [Java代码块和静态代码块加载顺序](#12)
 * [杂记](#-1)
 ---
+
 # <h4 id="1">字符串比较[⬆(返回目录)](#0)</h4>
 **一定不要使用 == 运算符检测两个字符串是否相等!!!** 因为，Java文档中将String类对象称为是**不可变的(immutable)**，优点是**编译器可以让字符串共享**。所以，这个运算符只能够确定两个字符串是否存放再同一个位置上。当然，如果字符串再同一个位置上，他们必然相等。但是，完全有可能将内容相同的多个字符串副本放置在不同的位置上。==实际上只有字符串**字面量**是共享的 **（在常量池中共享一块空间，实际上比较的还是地址空间是否相同）**，而+或substring等操作得到的字符串并不共享。需要进行比较时需要使用**equals函数**或**compareTo函数**(函数具体用法见API)。 **（java核心技术卷1[11版] p46，47）**
+
 ```java
     // 错误例子
     String temp = "Hello";
@@ -48,6 +53,7 @@ categories: Learning
 ```
 
 # <h4 id="2">码点和代码单元[⬆(返回目录)](#0)</h4>
+
 关于**码点(Code Point)** 和 **代码单元** [**链接1**](https://blog.csdn.net/diehuang3426/article/details/83422309) [**链接2**](https://www.jianshu.com/p/668356dd8089)**（Java核心技术卷1[11版] p48，49）**
 
 > **代码点（Code Point）**：在 Unicode 代码空间中的一个值，取值 0x0 至 0x10FFFF，代表一个字符。
@@ -56,6 +62,7 @@ categories: Learning
 
 # <h4 id="3">跳出多重嵌套循环[⬆(返回目录)](#0)</h4>
 尽管Java设计者将**goto**作为保留字，但实际上并没有打算在语言中使用它，因为通常认为使用**goto**很拙劣，通常会使代码的逻辑难以阅读及维护。但是，Java提供了一种**带标签的break**语句，用于跳出多重嵌套循环。示例代码如下：**(java核心技术卷1[11版] p75)**
+
 ```java
 Scanner in = new Scanner(System.in);
 int n;
@@ -84,6 +91,7 @@ if (n < 0) {
     // carry out normal processing
 }
 ```
+
 如果输入有误，执行带标签的break会跳转到带标签的语句块末尾。与任何使用break语句的代码一样，然后需要检测循环是正常结束，还是由break跳出。
 > 事实上，可以将标签应用到任何语句，甚至可以将其应用到if语句或者块语句，如下所示：
 
@@ -97,11 +105,13 @@ label:
 }
 // jumps here when the break statement executes
 ```
+
 > 因此，如果确实希望使用goto语句，而且一个代码块恰好在你想要跳到的位置之前结束，就可以使用break语句！当然，**并不提倡使用这种方式**。另外需要注意，只能**跳出**语句块，而不能**跳入**语句块。
 
 # <h4 id="4">Java中总是采用按值调用[⬆(返回目录)](#0)</h4>
 Java程序设计语言总是采用**按值调用**。也就是说，方法得到的是所有参数值的**一个副本**。具体来讲，方法不能修改传递给它的任何参数变量的内容。**(Java核心技术卷1[11版] p121-p124)**
 1. 当传递的参数是基本数据类型时：
+
 ```java
 public static void tripleValue(double x) {
     x = 3 * x;
@@ -111,7 +121,9 @@ tripleValue(percent);
 // 结果x的值为30，但percent的值仍未10
 // 因为x初始化为percent值的一个副本，但这个方法结束后，参数变量x不再使用
 ```
+
 2. 当传递的参数是引用对象时：（类比cpp中**恶心**的指针）
+
 ```java
 public static void swap(Employee x, Employee y) {
     Employee temp = x;
@@ -125,7 +137,9 @@ swap(a, b);
 // 此时，没有卵用。在方法结束时参数变量 x 和 y 被丢弃了
 // 原来的变量 a 和 b 仍然引用这个方法调用之前所引用的对象
 ```
+
 3. 但是当想改变对象参数的状态时是可以的：
+
 ```java
 public static void tripleSalary(Employee x) {
     x.raiseSalary(200);
@@ -136,10 +150,12 @@ tripleSalary(harry);
 // 2. raiseSalary方法应用于这个对象引用。x和 harry同时引用的那个Employee对象的工资提高了200%
 // 3. 方法结束后，参数变量 x不再使用。当然，对象变量 harry继续引用那个工资增至3倍的员工对象
 ```
+
 > **总结：** 方法不能修改基本数据类型的参数(即数值型或布尔型)。但是，方法可以改变对象参数的状态。同时，方法不能让一个对象参数引用一个新的对象。
 
 # <h4 id="5">i *= i++ + i 的结果[⬆(返回目录)](#0)</h4>
 [**参考资料**](https://zhuanlan.zhihu.com/p/40645506)
+
 ```java
 // 如下代码的运算结果是：
 int i = 2, j = 2;
@@ -148,8 +164,10 @@ j *= ++j + j;
 System.out.println("i=" + i); // i=10
 System.out.println("j=" + j); // j=12
 ```
+
 用javap -c 指令看一下JVM执行过程如下：
-```dos
+
+```bash
 public static void main(java.lang.String[]);
     Code:
        0: iconst_2
@@ -172,6 +190,7 @@ public static void main(java.lang.String[]);
       21: istore_2
       ...
 ```
+
 - ```iconst_i```: 当int取值 -1~5 时，JVM采用iconst指令将常量压入栈中
 - ```istore_i```: 弹出操作数栈栈顶元素，保存到局部变量表第i个位置
 - ```iload_i```: 加载局部变量表的第i个变量到操作数栈顶
@@ -181,6 +200,7 @@ public static void main(java.lang.String[]);
 > **工作中谁这样写，多半是脑子有泡**，目的是为了面试 ，是为了给需要这个问题的人看
 
 # <h4 id="6">⚠关于Java中protected的作用范围[⬆(返回目录)](#0)</h4>
+
 很多Java的书中对protected的作用范围的描述都是 **“对本包和所有子类可见”。** 实际上，描述的很准确，但是关于**子类**部分的描述过于简略。而实际情况却很复杂（**当然，出现这种复杂的情况极有可能是写代码的思路有问题，没有很好地运用Java的编程思想**），比如：在```com.parent```包中定义一个```Parent```类并声明一个```protected String str = "Whatever";```，在```com.child```包中定义一个```Child```类并且继承自```Parent```类，之后在```Child```类中使用```new Parent().str```就会报一个**属性不可见**的错误。
 - 先看一个解释：
 > 6.6.2 Details on protected Access
@@ -188,6 +208,7 @@ public static void main(java.lang.String[]);
 > A protected member or constructor of an object may be accessed from outside the package in which it is declared only by code that is responsible for the implementation of that object.
 
 这个解释其实很清楚了，但是如果思考过后还是没有很明白，看下面这个示例：
+
 ```java
 //in Parent.java
 package parentpackage;
@@ -207,6 +228,7 @@ class Children extends Parent {
 }
 // It is accessible, but only to its own variable.
 ```
+
 > **总结：** 对包可见很好理解，对子类可见或许解释为对子类的实例对象可见更好理解。[**StackOverflow关于这个问题的链接**(被采纳的答案中包含了出现这种问题时更好的代码设计模式)](https://stackoverflow.com/questions/3071720/why-cant-my-subclass-access-a-protected-variable-of-its-superclass-when-its-i/3071889#)
 
 # <h4 id="7">Java中静态方法中为什么不能使用this、super和直接调用非静态方法[⬆(返回目录)](#0)</h4>
@@ -222,6 +244,7 @@ class Children extends Parent {
 [参考链接](https://www.cnblogs.com/jxldjsn/p/11410329.html)
 
 # <h4 id="8">📝有n步台阶，一次只能上1步或2步，共有多少种走法[⬆(返回目录)](#0)</h4>
+
 ```java
 public static int upstairs(int n) {
     /*
@@ -241,6 +264,7 @@ public static int upstairs(int n) {
 ```
 
 # <h4 id="9">⚠并发编程的三大特性：原子性、可见性、有序性(搬运)[⬆(返回目录)](#0)</h4>
+
 [**文章搬运地址**](https://zhuanlan.zhihu.com/p/141744632) （搬运请注明原出处，我只是大自然的搬运工，原作者码字不易🍖）
 
 **Java内存模型**
@@ -332,14 +356,16 @@ public class VisibilityTest {
     }
 }
 ```
+
 在运行代码之前，先想一下运行的输出是什么样子的？在更新count值的线程中，每一次更新count以后，在读取count值的线程中都会有一次输出嘛？让我们来看一下运行输出是什么：
 
-```
+```bash
 开始读取count...
 17:21:54.796 赋值count为1
 17:21:55.798 赋值count为2
 17:21:56.799 赋值count为3
 ```
+
 从运行的输出看出，读取count值的线程一直没有读取到count的最新值，这是为什么呢？因为在读取count值的线程中，第一次读取count值时，从主内存中读取count的值后写入到自己的工作内存中，再从工作内存中读取，之后的读取的count值都是从自己的工作内存中读取，并没有发现更新count值的线程对count值的修改。
 
 **如何保证可见性**
@@ -386,6 +412,7 @@ public class Singleton {
     }
 }
 ```
+
 这是一个有问题的[**单例模式**](https://www.runoob.com/design-pattern/singleton-pattern.html)示例，假如在编译期或运行期时指令重排，把```isInit = true;```重新排序到```instance = new Singleton();```的前面。在单线程运行时，程序重排后的执行结果和代码顺序执行的结果是完全一样的，但是多个线程一起执行时就极有可能出现问题。比如，一个线程先判断```isInit```为**false**进行初始化，本应在初始化后再把```isInit```赋值为**true**，但是因为指令重排没后初始化就把```isInit```赋值为**true**，恰好此时另外一个线程在判断是否初始化过，```isInit```为**true**就执行返回了```instance```，这是一个没有初始化的```instance```，肯定造成不可预知的错误。
 
 **如何保证有序性**
@@ -416,6 +443,7 @@ public class Singleton {
 ```synchronized```关键字和```Lock```相关的工具类可以保证原子性、可见性和有序性，```volatile```关键字可以保证可见性和有序性，⚠**不能**保证原子性。
 
 # <h4 id="10">Java子类重写(覆盖)父类的方法必须满足的条件(搬运)[⬆(返回目录)](#0)</h4>
+
 [**文章搬运地址**](https://www.jianshu.com/p/6ceb4c581d3b) （搬运请注明原出处，我只是大自然的搬运工，原作者码字不易🍖）
 
 1. 父类中的方法在子类中必须可见，即子类继承了父类中的该方法（可以显式的使用 super 关键字来访问父类中的被重写的方法），如果父类中的方法为```private```类型的，那么子类虽能继承，但无法覆盖
@@ -438,11 +466,13 @@ public class Singleton {
     这个方法被子类 B 覆写后为```void setXXX() {}```即默认的访问权限只能被本包极其子类所访问
 
     假设其他包中的对象 C 调用方法：
+
     ```java
     void get(A a) {
         a.setXXX();
     }
     ```
+
     假设此时传入的对象为 B 类对象 b，此时 b 将转型为 a 但是 b 中的```setXXX()```调用权限已经被缩小了这将造成错误。所以子类对象不能比父类对象访问权限小
 
 - **为何子类重写方法的返回类型必须与父类相同或者是父类返回类型的子类型**
@@ -450,13 +480,16 @@ public class Singleton {
     也是因为向上转型
 
     假设 B 是 A 的子类，初始化 a 为 B 类型，并调用 B 类重写过的方法``` func()：```
+
     ```java
     A a = new B();
     C aa = a.func();
     ```
+
     假设原本 A 类的```func()```方法返回类型为 C，那么 B 类的```func()```方法返回类型就只能是 C 类或 C 类的子类型了
 
     > 其实，我个人认为这里这个例子举得并不是很好。换个思路，从代码复用性角度去想，假设有一个场景如下：
+
     ```java
     A[] arr = new A()[len];
     // 添加一些A子类的对象进数组，但并不只有一种子类对象
@@ -468,6 +501,7 @@ public class Singleton {
         ...
     }
     ```
+
     > 这样就会比较方便了，如果有更好的例子或更合理的解释，欢迎留言
 
 - **为何子类方法不能比父类方法抛出更多的编译时异常**
@@ -476,6 +510,7 @@ public class Singleton {
 
 # <h4 id="11">String类型赋值问题[⬆(返回目录)](#0)</h4>
 先看一下```String```类型的源码：
+
 ```java
 ...
 public final class String
@@ -485,25 +520,33 @@ public final class String
     ...
 }
 ```
+
 发现其中有个```final```修饰的```char```类型数组```value```，而且这个数组存有```String```类型变量的值（切分为多个字符存入这个字符数组），但是考虑如下赋值语句：
+
 ```java
 String str = "aaa";
 str = "bbb";
 ```
+
 有没有感觉到有什么不对，是的，好像```final```修饰的```value```数组值被改变了，那好像也没什么不对。那再考虑下面代码：
+
 ```java
 String str = "aaa";
 str = "bbbbb";
 ```
+
 好像又不对了，这里```final```修饰的```value```是个静态数组啊，在内存中应该是连续存储的啊，这里数组长度应该被改变了，就算是做了扩容操作，也应该要重新申请一个连续的地址空间重新赋给```value```啊，那不相当于修改了```final```修饰的引用类型变量的地址了嘛。
 
 是的，这里不仅仅改变了```value```的地址，连```str```其实都已经不是之前的```str```了，实际上，这里恰好体现了```String```是一个引用类型的事实，```str = "bbbbb";```首先从常量池寻找是否存在```"bbbbb"```，如果没有就创建一个，然后返回一个```String```类型对象的副本，然后再把这个副本赋值给```str```。这个看着很像基本数据类型的赋值语句，实则是非常典型的引用类型的赋值语句。所以，用```final```修饰的```String```类型变量因无法修改其指向的地址，所以就无法修改。
+
 ```java
 final String str = "aaa";
 str = "bbbbb";
 // error: Cannot assign a value to final variable 'str'
 ```
+
 **但是**，当使用```String```类型有参构造器创建对象时，会和其他引用类型创建实例对象一样，会把值保存在堆空间中，而不是常量池。代码如下：
+
 ```java
 String str = "aaa";
 System.out.println(str == "aaa"); // true
