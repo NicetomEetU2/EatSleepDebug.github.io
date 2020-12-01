@@ -6,7 +6,7 @@ tags:
 categories: Learning
 ---
 
-# [**排版更好的笔记的链接**](https://github.com/EatSleepDebug/ShangGuiGu/blob/main/README.md)
+# [**排版更好的笔记的链接**](https://github.com/NicetomEetU2/notes/blob/main/Java.md)
 *hexo对我熟悉的markdown语法的排版给我整吐了。。。*
 
 ## <h3 id="0">目录</h3>
